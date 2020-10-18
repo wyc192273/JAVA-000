@@ -1,0 +1,82 @@
+Classfile /Users/kuaikan/work/JAVA-000/Week_01/TestConstruct.class
+  Last modified 2020-10-18; size 471 bytes
+  MD5 checksum 5f63db5a8c33b7ce73828b125f19a1ea
+  Compiled from "TestConstruct.java"
+public class TestConstruct
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Methodref          #5.#22         // java/lang/Object."<init>":()V
+   #2 = Fieldref           #3.#23         // TestConstruct.a:I
+   #3 = Class              #24            // TestConstruct
+   #4 = Methodref          #3.#22         // TestConstruct."<init>":()V
+   #5 = Class              #25            // java/lang/Object
+   #6 = Utf8               a
+   #7 = Utf8               I
+   #8 = Utf8               <init>
+   #9 = Utf8               ()V
+  #10 = Utf8               Code
+  #11 = Utf8               LineNumberTable
+  #12 = Utf8               LocalVariableTable
+  #13 = Utf8               this
+  #14 = Utf8               LTestConstruct;
+  #15 = Utf8               b
+  #16 = Utf8               main
+  #17 = Utf8               ([Ljava/lang/String;)V
+  #18 = Utf8               args
+  #19 = Utf8               [Ljava/lang/String;
+  #20 = Utf8               SourceFile
+  #21 = Utf8               TestConstruct.java
+  #22 = NameAndType        #8:#9          // "<init>":()V
+  #23 = NameAndType        #6:#7          // a:I
+  #24 = Utf8               TestConstruct
+  #25 = Utf8               java/lang/Object
+{
+  private int a;
+    descriptor: I
+    flags: ACC_PRIVATE
+
+  public TestConstruct();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=1
+         0: aload_0                           //                                           默认构造方法，默认会有一个this作为参数，放到第0槽上，_0代表对应局部变量表的槽位
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V      调用父类的构造方法
+         4: aload_0
+         5: iconst_1                          //                                           取int常量1
+         6: putfield      #2                  // Field a:I
+         9: aload_0
+        10: getfield      #2                  // Field a:I
+        13: istore_1
+        14: return
+      LineNumberTable:
+        line 10: 0
+        line 7: 4
+        line 11: 9
+        line 12: 14
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      15     0  this   LTestConstruct;
+           14       1     1     b   I
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=2, args_size=1
+         0: new           #3                  // class TestConstruct         实例化一个对象的实例
+         3: dup                               //                             将对象的引用地址拷贝到栈顶
+         4: invokespecial #4                  // Method "<init>":()V         调用构造方法，完成对象的初始化
+         7: astore_1                          //                             将栈顶对象放到第一个槽位上
+         8: return
+      LineNumberTable:
+        line 15: 0
+        line 16: 8
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  args   [Ljava/lang/String;
+            8       1     1     a   LTestConstruct;
+}
+SourceFile: "TestConstruct.java"
