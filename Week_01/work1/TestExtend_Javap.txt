@@ -1,0 +1,40 @@
+Classfile /Users/kuaikan/work/JAVA-000/Week_01/work1/TestExtend.class
+  Last modified 2020-10-19; size 267 bytes
+  MD5 checksum 591b1e31af5a591024a4b21244d7cc5b
+  Compiled from "TestExtend.java"
+public class work1.TestExtend
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Methodref          #3.#13         // java/lang/Object."<init>":()V
+   #2 = Class              #14            // work1/TestExtend
+   #3 = Class              #15            // java/lang/Object
+   #4 = Utf8               <init>
+   #5 = Utf8               ()V
+   #6 = Utf8               Code
+   #7 = Utf8               LineNumberTable
+   #8 = Utf8               LocalVariableTable
+   #9 = Utf8               this
+  #10 = Utf8               Lwork1/TestExtend;
+  #11 = Utf8               SourceFile
+  #12 = Utf8               TestExtend.java
+  #13 = NameAndType        #4:#5          // "<init>":()V
+  #14 = Utf8               work1/TestExtend
+  #15 = Utf8               java/lang/Object
+{
+  public work1.TestExtend();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 7: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lwork1/TestExtend;
+}
+SourceFile: "TestExtend.java"
