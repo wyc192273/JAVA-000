@@ -1,3 +1,8 @@
+#作业
+[第2题](work2/Work2.java)
+[第3题](work3/work3.md)
+
+
 #学习笔记
 ###JDK、JRE、JVM的关系
 ![avatar](img/JDK.png)

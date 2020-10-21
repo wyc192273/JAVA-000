@@ -18,8 +18,13 @@ public class Work2 {
         HelloClassLoader helloClassLoader = new HelloClassLoader();
         Class clazz = helloClassLoader.findClass("Hello");
         Object obj = clazz.newInstance();
-        Method method = obj.getClass().getMethod("hello");
-        method.invoke(obj);
+        objInvoke(obj, "hello");
+    }
+
+    public static Object objInvoke(Object obj, String methodName)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method method = obj.getClass().getMethod(methodName);
+        return method.invoke(obj);
     }
 
     static class HelloClassLoader extends ClassLoader {
@@ -39,7 +44,7 @@ public class Work2 {
         }
 
         private byte[] getData() {
-            File file = new File("/Users/kuaikan/work/JAVA-000/Week_01/work2/Hello.xlass");
+            File file = new File(Work2.class.getResource("/").getPath() + "work2/Hello.xlass");
             try (InputStream inputStream = new FileInputStream(file)) {
                 byte[] bytes = new byte[inputStream.available()];
                 inputStream.read(bytes);
