@@ -11,7 +11,9 @@
 1.直接运行 java -XX:+PrintGCDetails GCLogAnalysis
 -XX:+PrintGCDetails ： 打印GC的详细信息
 由于使用的是jdk8版本，默认使用的是并行GC
+
 ![avatar](img/JVM01.jpg)
+
 日志解析：
  * [GC 和 [Full GC  代表GC的停顿类型
  * Allocation Failure 说明分配空间失败导致
