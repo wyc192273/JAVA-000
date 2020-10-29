@@ -65,8 +65,7 @@ com.wyc.jvm.MemoryTest@7cef4e59d object externals:
         76abb8848         16 com.wyc.jvm.MemoryTest                                (object)
 size: 16
 ```
-但是通过老师的图，感觉正常应该是对象头，标记位占一个机器字，Class指针占一个机器字，那这样的话，应该不会有4bytes是用来补齐的，现在从结果看，不符合预期
-后来查看了部分资料发现，从JDK 1.6 update14开始，64位的JVM正式支持了 -XX:+UseCompressedOops 这个可以压缩指针，起到节约内存占用的新参数
+由于从JDK 1.6 update14开始，64位的JVM正式支持了 -XX:+UseCompressedOops 这个可以压缩指针，起到节约内存占用的新参数
 也就是说，默认我这个是开启了压缩指针，我在启动VM参数加上了 -XX:-UseCompressedOops之后
 ```text
 com.wyc.jvm.MemoryTest object internals:
