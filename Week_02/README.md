@@ -34,4 +34,53 @@
  *  [Times: user=0.01 sys=0.05, real=0.01 secs] 由于我当前使用的系统核心线程数是4，用的并行收集器，并行收集器默认线程数分配是，如果大于8个则取5/8,如果小于8个，则直接使用核心线程数。而时间real = (user + sys) / 4 大概约等于0.01
 
  
- 
+ ### 内存布局分析
+ 本机64位，本地测试一个空的类，代码如下：
+ ```java
+public class MemoryTest {
+    public static void main(String[] args) {
+        MemoryTest memoryTest = new MemoryTest();
+        //查看对象内部信息
+        System.out.println(ClassLayout.parseInstance(memoryTest).toPrintable());
+        //查看对象外部信息
+        System.out.println(GraphLayout.parseInstance(memoryTest).toPrintable());
+        //获取对象总大小
+        System.out.println("size: " + GraphLayout.parseInstance(memoryTest).totalSize());
+    }
+}
+```
+通过JOL查看空对象的内存布局，发现：
+```text
+com.wyc.jvm.MemoryTest object internals:
+ OFFSET  SIZE   TYPE DESCRIPTION                               VALUE
+      0     4        (object header)                           01 00 00 00 (00000001 00000000 00000000 00000000) (1)
+      4     4        (object header)                           00 00 00 00 (00000000 00000000 00000000 00000000) (0)
+      8     4        (object header)                           05 c0 00 f8 (00000101 11000000 00000000 11111000) (-134168571)
+     12     4        (loss due to the next object alignment)
+Instance size: 16 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
+
+com.wyc.jvm.MemoryTest@7cef4e59d object externals:
+          ADDRESS       SIZE TYPE                   PATH                           VALUE
+        76abb8848         16 com.wyc.jvm.MemoryTest                                (object)
+size: 16
+```
+但是通过老师的图，感觉正常应该是对象头，标记位占一个机器字，Class指针占一个机器字，那这样的话，应该不会有4bytes是用来补齐的，现在从结果看，不符合预期
+后来查看了部分资料发现，从JDK 1.6 update14开始，64位的JVM正式支持了 -XX:+UseCompressedOops 这个可以压缩指针，起到节约内存占用的新参数
+也就是说，默认我这个是开启了压缩指针，我在启动VM参数加上了 -XX:-UseCompressedOops之后
+```text
+com.wyc.jvm.MemoryTest object internals:
+ OFFSET  SIZE   TYPE DESCRIPTION                               VALUE
+      0     4        (object header)                           01 00 00 00 (00000001 00000000 00000000 00000000) (1)
+      4     4        (object header)                           00 00 00 00 (00000000 00000000 00000000 00000000) (0)
+      8     4        (object header)                           c0 a4 6b 17 (11000000 10100100 01101011 00010111) (392930496)
+     12     4        (object header)                           01 00 00 00 (00000001 00000000 00000000 00000000) (1)
+Instance size: 16 bytes
+Space losses: 0 bytes internal + 0 bytes external = 0 bytes total
+
+com.wyc.jvm.MemoryTest@424c0bc4d object externals:
+          ADDRESS       SIZE TYPE                   PATH                           VALUE
+        1d2fde1b8         16 com.wyc.jvm.MemoryTest                                (object)
+size: 16
+```
+发现结果是符合预期的。这里要注意一下
