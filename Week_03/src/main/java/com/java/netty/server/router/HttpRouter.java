@@ -4,6 +4,8 @@ import static io.netty.handler.codec.http.HttpResponseStatus.NO_CONTENT;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionHandler;
@@ -17,6 +19,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpUtil;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.DefaultThreadFactory;
@@ -29,6 +32,8 @@ import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+
+import com.java.netty.server.filter.HttpRequestFilter;
 
 /**
  * Created by yuchen.wu on 2020-11-03
@@ -93,7 +98,7 @@ public class HttpRouter extends ChannelInboundHandlerAdapter {
     private void fetchGet(final FullHttpRequest request, final ChannelHandlerContext ctx, final String url) {
         final HttpGet httpGet = new HttpGet(url);
         //httpGet.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_CLOSE);
-        httpGet.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_KEEP_ALIVE);
+        setHttpGetHeaders(httpGet, request);
         httpclient.execute(httpGet, new FutureCallback<HttpResponse>() {
 
             @Override
@@ -118,6 +123,18 @@ public class HttpRouter extends ChannelInboundHandlerAdapter {
                 httpGet.abort();
             }
         });
+    }
+
+    private void setHttpGetHeaders(HttpGet httpGet, FullHttpRequest request) {
+        HttpHeaders httpHeaders = request.headers().copy();
+        for (Map.Entry<String, String> entry : httpHeaders.entries()) {
+            if (entry.getKey().equals("Host")) {
+                httpGet.setHeader(entry.getKey(), proxyServer + ":" + proxyPort);
+            } else {
+                httpGet.setHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        httpGet.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_KEEP_ALIVE);
     }
 
     private void handleResponse(final FullHttpRequest fullRequest, final ChannelHandlerContext ctx,
