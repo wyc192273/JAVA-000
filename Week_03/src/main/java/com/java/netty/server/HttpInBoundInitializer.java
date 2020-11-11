@@ -40,8 +40,8 @@ public class HttpInBoundInitializer extends ChannelInitializer<SocketChannel> {
         p.addLast(new HttpObjectAggregator(1024 * 1024));
         p.addLast(new ClientRegistry());
         p.addLast(new HttpInboundHandler(filters));
-//        p.addLast(new NettyHttpRouter(proxyServer, proxyPort));
-        p.addLast(new HttpRouter(proxyServer, proxyPort));
+        p.addLast(new NettyHttpRouter(proxyServer, proxyPort));
+//        p.addLast(new HttpRouter(proxyServer, proxyPort));
         p.addLast(new HttpOutboundHandler());
     }
 
