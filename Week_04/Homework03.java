@@ -121,9 +121,10 @@ public class Homework03 {
     private static void solution6() throws ExecutionException, InterruptedException, BrokenBarrierException {
         long start=System.currentTimeMillis();
         AtomicInteger result = new AtomicInteger();
-        CyclicBarrier cyclicBarrier = new CyclicBarrier(2, () -> result.set(sum()));
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(2);
         Thread thread = new Thread(() -> {
             try {
+                result.set(sum());
                 cyclicBarrier.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
