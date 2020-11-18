@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="service" class="com.test.Service">
+        <constructor-arg ref="dao1"/>
+        <constructor-arg ref="dao2"/>
+    </bean>
+
+    <bean id="service2" class="com.test.Service">
+        <property name="dao1" ref="dao1"/>
+        <property name="dao2" ref="dao2"/>
+    </bean>
+
+    <bean id="dao1" class="com.test.DaoImpl1"/>
+
+    <bean id="dao2" class="com.test.DaoImpl2"/>
+
+    <bean id="service3" class="com.test.Service"/>
+
+    <context:component-scan base-package="com.test" />
+
+</beans>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:test="http://com.test/schema/school"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://com.test/schema/school
+                           http://com.test/schema/school.xsd ">
+
+    <test:student id="student" name="wyc" age="28"/>
+    <test:student id="student2" name="wyc2" age="18"/>
+
+    <test:klass id="class1" name="class2">
+        <test:ref value="student"/>
+        <test:ref value="student2"/>
+    </test:klass>
+
+    <test:school id="school1" name="school2">
+        <test:ref value="class1"/>
+    </test:school>
+
+
+</beans>

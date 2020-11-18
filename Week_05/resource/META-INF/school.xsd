@@ -1,0 +1,71 @@
+<xsd:schema
+        xmlns="http://com.test/schema/school"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:beans="http://www.springframework.org/schema/beans"
+        targetNamespace="http://com.test/schema/school"
+        elementFormDefault="qualified"
+>
+
+    <xsd:import namespace="http://www.springframework.org/schema/beans"/>
+    <xsd:element name="student">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="name" type="xsd:string"/>
+                    <xsd:attribute name="age" type="xsd:int"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="klass">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="baseProperty">
+                    <xsd:sequence  minOccurs="0" maxOccurs="unbounded">
+                        <xsd:element name="ref" type="ownType" minOccurs="0" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="school">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="baseProperty">
+                    <xsd:sequence  minOccurs="0" maxOccurs="unbounded">
+                        <xsd:element name="ref" type="ownType" minOccurs="0" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="baseProperty">
+        <xsd:complexContent>
+            <xsd:extension base="beans:identifiedType">
+                <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="ownType">
+        <xsd:attribute name="value" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[ this is desc ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <!--<xsd:element name="school">-->
+        <!--<xsd:complexType>-->
+            <!--<xsd:complexContent>-->
+                <!--<xsd:extension base="beans:identifiedType">-->
+                    <!--<xsd:attribute name="name" type="xsd:string"/>-->
+                    <!--<xsd:attribute name="students" type="beans:listOrSetType"/>-->
+                <!--</xsd:extension>-->
+            <!--</xsd:complexContent>-->
+        <!--</xsd:complexType>-->
+    <!--</xsd:element>-->
+</xsd:schema>

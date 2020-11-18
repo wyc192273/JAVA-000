@@ -1,0 +1,11 @@
+student:
+  isopen: true
+  age: 18
+  name: wyc
+
+klass:
+  name: yiban
+
+school:
+  isopen: true
+  name: wenlu
