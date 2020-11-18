@@ -48,4 +48,4 @@ spring profile配置：
 [代码](com.java.proxy/ProfileTest.java)
 
 ##### spring02 必做题3
-[代码]()
+[代码](https://github.com/wyc192273/JAVA-000/tree/main/school-springboot-test)
