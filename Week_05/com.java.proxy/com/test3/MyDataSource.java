@@ -23,12 +23,12 @@ public class MyDataSource {
         static {
             int capacity = CONNECTION_POOL.remainingCapacity();
             Map<Connection, Connection> connectionMap = new HashMap<>();
+            String host = System.getProperty("host", "localhost");
+            int port = Integer.parseInt(System.getProperty("port", "3306"));
+            String username =  System.getProperty("user", "root");
+            String password =  System.getProperty("pass", "root");
             for (int i = 0; i < capacity; i++) {
                 try {
-                    String host = System.getProperty("host", "localhost");
-                    int port = Integer.parseInt(System.getProperty("port", "3306"));
-                    String username =  System.getProperty("user", "root");
-                    String password =  System.getProperty("pass", "root");
                     Connection connection = DriverManager.getConnection(String.format(CONNECTION_TEMPLATE, host, port, "test"),
                             username, password);
                     Connection connectionProxy = (Connection) MyConnectionProxy.createProxy(connection, INSTANCE);
@@ -81,6 +81,8 @@ public class MyDataSource {
         CONNECTION_POOL.add(connection);
         System.out.println(Thread.currentThread() + "释放连接" + connection + "，连接池剩余连接个数: " + CONNECTION_POOL.size());
     }
+
+
 
     private static class MyConnectionProxy{
 
