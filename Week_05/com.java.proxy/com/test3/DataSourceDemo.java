@@ -21,7 +21,7 @@ public class DataSourceDemo {
         insertStudent();
         batchInsert();
         batchDelete();
-        //@todo 多线程问题，还未解决，最后发现线程池关不掉。还未 定位问题
+        // 终极原因是代理问题。
         batchQuerySchoolTest();
     }
 

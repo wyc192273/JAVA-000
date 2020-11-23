@@ -106,7 +106,7 @@ public class MyDataSource {
 
                 if (method.getName().equals("close")) {
                     System.out.println(Thread.currentThread() + "in invoke");
-                    myDataSource.releaseConnection(target);
+                    myDataSource.releaseConnection((Connection) proxy);
                     return null;
                 } else {
                     return method.invoke(target, args);
