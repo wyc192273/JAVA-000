@@ -1,21 +1,25 @@
 package com.test3;
 
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+import javax.sql.DataSource;
 
 /**
  * Created by yuchen.wu on 2020-11-18
  */
 
-public class MyDataSource {
+public class MyDataSource implements DataSource {
 
     private static class InstanceHolder{
         private static MyDataSource INSTANCE = new MyDataSource();
@@ -31,9 +35,9 @@ public class MyDataSource {
                 try {
                     Connection connection = DriverManager.getConnection(String.format(CONNECTION_TEMPLATE, host, port, "test"),
                             username, password);
-                    Connection connectionProxy = (Connection) MyConnectionProxy.createProxy(connection, INSTANCE);
-                    connectionMap.put(connectionProxy, connection);
-                    CONNECTION_POOL.add(connectionProxy);
+                    Connection myConnection = (Connection) MyConnection.createProxy(connection, INSTANCE);
+                    connectionMap.put(myConnection, connection);
+                    CONNECTION_POOL.add(myConnection);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -71,48 +75,61 @@ public class MyDataSource {
     }
 
 
-    public Connection getConnection() throws InterruptedException {
-        Connection connection = CONNECTION_POOL.take();
-        System.out.println(Thread.currentThread() + "获取连接" + connection + "，连接池剩余连接个数: " + CONNECTION_POOL.size());
+    @Override
+    public Connection getConnection() {
+        Connection connection = null;
+        try {
+            connection = CONNECTION_POOL.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        System.out.println(Thread.currentThread() + "获取连接" + connection + "，连接池剩余连接个数: " + CONNECTION_POOL.size());
         return connection;
+    }
+
+    @Override
+    public Connection getConnection(String username, String password) throws SQLException {
+        return getConnection();
     }
 
     public void releaseConnection(Connection connection) {
         CONNECTION_POOL.add(connection);
-        System.out.println(Thread.currentThread() + "释放连接" + connection + "，连接池剩余连接个数: " + CONNECTION_POOL.size());
+//        System.out.println(Thread.currentThread() + "释放连接" + connection + "，连接池剩余连接个数: " + CONNECTION_POOL.size());
     }
 
+    @Override
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        return null;
+    }
 
+    @Override
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        return false;
+    }
 
-    private static class MyConnectionProxy{
+    @Override
+    public PrintWriter getLogWriter() throws SQLException {
+        return null;
+    }
 
-        public static Object createProxy(Connection target, MyDataSource myDataSource) {
-            return Proxy.newProxyInstance(MyConnectionProxy.class.getClassLoader(), target.getClass().getInterfaces(),
-                    new InternalInvocationHandler(target, myDataSource));
-        }
+    @Override
+    public void setLogWriter(PrintWriter out) throws SQLException {
 
-        private static class InternalInvocationHandler implements InvocationHandler {
+    }
 
-            private MyDataSource myDataSource;
-            private Connection target;
+    @Override
+    public void setLoginTimeout(int seconds) throws SQLException {
 
-            public InternalInvocationHandler(Connection target, MyDataSource myDataSource) {
-                this.myDataSource = myDataSource;
-                this.target = target;
-            }
+    }
 
-            @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    @Override
+    public int getLoginTimeout() throws SQLException {
+        return 0;
+    }
 
-                if (method.getName().equals("close")) {
-                    System.out.println(Thread.currentThread() + "in invoke");
-                    myDataSource.releaseConnection((Connection) proxy);
-                    return null;
-                } else {
-                    return method.invoke(target, args);
-                }
-            }
-        }
+    @Override
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+        return null;
     }
 
 }
