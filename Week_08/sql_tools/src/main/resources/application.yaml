@@ -1,0 +1,6 @@
+server:
+  port: 8080   # http 请求端口号
+
+dynamic:
+  dataSource:
+    routerStrategy: polling  #配置动态数据源 路由机制 polling 轮询 random 随机
