@@ -12,7 +12,6 @@ public class RpcfxProxy {
     private static Protocol protocol = new OkHttpClientProtocol();
 
     public static <T> T create(final Class<T> serviceClass, final String url) {
-        // 0. 替换动态代理 -> AOP
         RpcfxServiceWrapper<T> rpcfxServiceWrapper = protocol.refer(serviceClass, url);
         return rpcfxServiceWrapper.createProxy();
     }

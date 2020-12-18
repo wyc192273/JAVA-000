@@ -30,7 +30,6 @@ public class ReflectRpcfxResolver implements RpcfxResolver {
 
     public static <T> List<Class<T>> getAllClassByInterface(Class<T> clazz, String basePageName) {
         List<Class<T>> list = new ArrayList<>();
-        // 判断是否是一个接口
         if (clazz.isInterface()) {
             try {
                 List<Class> allClass = getAllClass(basePageName);

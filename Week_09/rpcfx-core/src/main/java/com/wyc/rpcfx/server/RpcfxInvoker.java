@@ -42,10 +42,7 @@ public class RpcfxInvoker {
             response.setStatus(RpcfxResponse.ERROR);
             return response;
         } catch (Exception e) {
-            // 3.Xstream
-
-            // 2.封装一个统一的RpcfxException
-            // 客户端也需要判断异常
+            // 3.Xstream @todo
             response.setException(new RpcfxException(e));
             response.setStatus(RpcfxResponse.ERROR);
             return response;
