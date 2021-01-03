@@ -15,7 +15,7 @@ import com.wyc.rpcfx.server.RpcfxInvoker;
 @RestController
 public class RpcfxController {
 
-    @PostMapping("/")
+    @PostMapping("/invoke")
     public RpcfxResponse invoke(@RequestBody RpcfxRequest rpcfxRequest) {
         ReflectRpcfxResolver reflectRpcfxResolver = new ReflectRpcfxResolver();
         RpcfxInvoker invoker = new RpcfxInvoker(reflectRpcfxResolver, "com.wyc.rpcfx.provider.service.impl");

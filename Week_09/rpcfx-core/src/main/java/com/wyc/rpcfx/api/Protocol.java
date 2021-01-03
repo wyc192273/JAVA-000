@@ -8,7 +8,7 @@ import com.wyc.rpcfx.client.RpcfxServiceWrapper;
 
 public interface Protocol {
 
-    <T> RpcfxServiceWrapper<T> refer(final Class<T> target, final String url);
+    <T> RpcfxServiceWrapper<T> refer(final Class<T> target, final Url url);
 
 
 }

@@ -30,10 +30,10 @@ public class OkHttpClientProtocol implements Protocol {
     }
 
     @Override
-    public <T> RpcfxServiceWrapper<T> refer(Class<T> target, String url) {
+    public <T> RpcfxServiceWrapper<T> refer(Class<T> target, Url url) {
         return new RpcfxServiceWrapper<T>(target, url) {
             @Override
-            protected RpcfxResponse invoke(RpcfxRequest req, String url) throws RpcfxException {
+            protected RpcfxResponse invoke(RpcfxRequest req, Url url) throws RpcfxException {
                 return post(req, url);
             }
         };
@@ -41,11 +41,12 @@ public class OkHttpClientProtocol implements Protocol {
 
     public static final MediaType JSONTYPE = MediaType.get("application/json; charset=utf-8");
 
-    private RpcfxResponse post(RpcfxRequest req, String url) throws RpcfxException {
+    private RpcfxResponse post(RpcfxRequest req, Url url) throws RpcfxException {
+        String invokeUrl = "http://" + url.getHost() + ":" + url.getPort() + "/invoke";
         String reqJson = JSON.toJSONString(req);
 //        System.out.println("req json: "+reqJson);
         final Request request = new Request.Builder()
-                .url(url)
+                .url(invokeUrl)
                 .post(RequestBody.create(JSONTYPE, reqJson))
                 .build();
         String respJson;

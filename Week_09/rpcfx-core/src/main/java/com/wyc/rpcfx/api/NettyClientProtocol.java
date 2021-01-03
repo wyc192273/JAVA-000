@@ -10,10 +10,10 @@ import com.wyc.rpcfx.client.RpcfxServiceWrapper;
 public class NettyClientProtocol implements Protocol{
 
     @Override
-    public <T> RpcfxServiceWrapper<T> refer(Class<T> target, String url) {
+    public <T> RpcfxServiceWrapper<T> refer(Class<T> target, Url url) {
         return new RpcfxServiceWrapper<T>(target, url) {
             @Override
-            protected RpcfxResponse invoke(RpcfxRequest req, String url) throws RpcfxException {
+            protected RpcfxResponse invoke(RpcfxRequest req, Url url) throws RpcfxException {
 //                post(req, url);
                 return null;
             }

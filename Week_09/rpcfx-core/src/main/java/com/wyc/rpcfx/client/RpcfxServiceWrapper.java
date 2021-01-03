@@ -9,6 +9,7 @@ import net.sf.cglib.proxy.MethodProxy;
 import com.wyc.rpcfx.api.RpcfxException;
 import com.wyc.rpcfx.api.RpcfxRequest;
 import com.wyc.rpcfx.api.RpcfxResponse;
+import com.wyc.rpcfx.api.Url;
 
 /**
  * Created by yuchen.wu on 2020-12-13
@@ -17,9 +18,9 @@ import com.wyc.rpcfx.api.RpcfxResponse;
 public abstract class RpcfxServiceWrapper<T> implements MethodInterceptor {
 
     private Class<T> targetClass;
-    private String url;
+    private Url url;
 
-    public RpcfxServiceWrapper(Class<T> targetClass, String url) {
+    public RpcfxServiceWrapper(Class<T> targetClass, Url url) {
         this.targetClass = targetClass;
         this.url = url;
     }
@@ -39,7 +40,7 @@ public abstract class RpcfxServiceWrapper<T> implements MethodInterceptor {
         return response.getResult();
     }
 
-    protected abstract RpcfxResponse invoke(RpcfxRequest req, String url) throws RpcfxException;
+    protected abstract RpcfxResponse invoke(RpcfxRequest req, Url url) throws RpcfxException;
 
     private void rpcfxExceptionHandle(RpcfxResponse response) {
         if (response.isSuccess()) {
