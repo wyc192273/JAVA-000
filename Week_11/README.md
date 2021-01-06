@@ -38,6 +38,5 @@
 * 扣减库存： http://localhost:8081/cost_inventory?count=10
 
 #### jedis简单实现pub/sub
-
 * [pub: http://localhost:8081/pub?message=test](spring-jedis-test/src/main/java/com/wyc/redis/controller/TestController.java)
 * [sub: 看日志输出](spring-jedis-test/src/main/java/com/wyc/redis/listener/OrderListener.java)
